@@ -41,3 +41,14 @@ Feature: Sample
     Given an API client
     When it does a GET to /search with the parameters "hand" and "craft"
     Then the results contain the words "hand" and "craft"
+
+  # an invalid parameter could be one which is never going to exist or possibly a swear word which should
+  # not be in autosuggest and should not return results
+  @api
+  Scenario: doing a GET to /search with an invalid parameter does not return results
+    Given an API client
+    When it does a GET to /search with an invalid keyword
+    Then no results are returned
+
+  # api tests could be created for 3rd party software that integrates with Etsy
+  # we would always want to test for happy paths and potential failure cases.
