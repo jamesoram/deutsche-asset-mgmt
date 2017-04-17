@@ -51,6 +51,11 @@ public class SearchSteps {
         user.search_from_input_box();
     }
 
+    @When("^he searches for a product from the drop-down menu$")
+    public void search_from_dropdown_menu() {
+        user.search_from_dropdown_menu();
+    }
+
     @When("^he searches for a product from the input box \\(screenplay\\)$")
     public void search_from_input_box_screenplay() {
         theActorInTheSpotlight().attemptsTo(SearchFor.randomText());
@@ -60,6 +65,11 @@ public class SearchSteps {
     public void verify_search_result() {
         user.verify_result_for_top_categories();
         user.verify_result_for_all_categories();
+    }
+
+    @Then("^the chosen category should be displayed$")
+    public void category_should_be_displayed() {
+        user.verify_correct_category();
     }
 
     @Then("^the result should be displayed \\(screenplay\\)$")

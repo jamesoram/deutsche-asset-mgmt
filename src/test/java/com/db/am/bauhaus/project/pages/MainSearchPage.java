@@ -19,6 +19,18 @@ public class MainSearchPage extends PageObject {
     @FindBy(css = ".btn.btn-orange.btn-append")
     WebElementFacade searchButton;
 
+    @FindBy(id = "catnav-dropdown")
+    WebElementFacade categoryDropdown;
+
+    @FindBy(css = "h1")
+    WebElementFacade titleHeader;
+
+    private final static String MENUBAR_BY_CONTENT =
+            "id('catnav-menubar')/li[contains(., '%s') and not(contains(@class, 'display-none'))]";
+
+    private final static String MENUBAR_SUBCATEGORY =
+            "id('catnav-dropdown')//a[contains(., '%s')]";
+
     public MainSearchPage(WebDriver driver) {
         super(driver);
     }
@@ -28,11 +40,26 @@ public class MainSearchPage extends PageObject {
         searchButton.click();
     }
 
+    public void searchFromDropdownMenu(String generalSearchText, String subcategoryText) {
+        // click on the general category in order to display drop-down
+        getDriver().findElement(
+                By.xpath(String.format(MENUBAR_BY_CONTENT, generalSearchText))).click();
+        // wait for the submenu to appear
+        waitFor(categoryDropdown);
+        // proceed to choose a subcategory
+        getDriver().findElement(
+                By.xpath(String.format(MENUBAR_SUBCATEGORY, subcategoryText))).click();
+    }
+
     public String getTopCategoriesHeader() {
         return find(By.cssSelector("h4.pb-xs-1-5")).getText();
     }
 
     public String getAllCategoriesHeader() {
         return find(By.cssSelector("h1.conform-heading.display-inline")).getText();
+    }
+
+    public String getTitleHeader() {
+        return titleHeader.getText();
     }
 }

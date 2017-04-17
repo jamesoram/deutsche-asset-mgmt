@@ -14,20 +14,33 @@ public class SearchUser extends ScenarioSteps {
 
     MainSearchPage mainSearchPage;
 
-    String searchText = "craft";
+    // Not sure why the search terms are here - I would have had them inside the test as test data
+    private String generalSearchText = "Craft";
+    private String subcategoryText = "Sewing & Fiber";
+    private String specificSearchText = "Needlecraft";
 
     @Step
     public void search_from_input_box() {
-        mainSearchPage.searchFromInputBox(searchText);
+        mainSearchPage.searchFromInputBox(generalSearchText);
+    }
+
+    @Step
+    public void search_from_dropdown_menu() {
+        mainSearchPage.searchFromDropdownMenu(generalSearchText, subcategoryText);
     }
 
     @Step
     public void verify_result_for_top_categories() {
-        assertThat(mainSearchPage.getTopCategoriesHeader(), containsString(searchText));
+        assertThat(mainSearchPage.getTopCategoriesHeader(), containsString(generalSearchText));
     }
 
     @Step
     public void verify_result_for_all_categories() {
-        assertThat(mainSearchPage.getAllCategoriesHeader(), containsString(searchText));
+        assertThat(mainSearchPage.getAllCategoriesHeader(), containsString(generalSearchText));
+    }
+
+    @Step
+    public void verify_correct_category() {
+        assertThat(mainSearchPage.getTitleHeader(), containsString(subcategoryText));
     }
 }
