@@ -29,6 +29,8 @@ import static org.hamcrest.Matchers.containsString;
  */
 public class SearchSteps {
 
+    private static final String URL = "https://www.etsy.com/uk";
+
     @Before
     public void before() {
         OnStage.setTheStage(new OnlineCast());
@@ -51,7 +53,7 @@ public class SearchSteps {
 
     @Given("^an API client$")
     public void an_api_client() {
-//        new RestDefaultsChained().setDefaultBasePath("http://etsy.com/uk/").setDefaultPort(80);
+        // do nothing - specify that this is not a normal ui actor
     }
 
     @When("^he searches for a product from the input box$")
@@ -76,7 +78,12 @@ public class SearchSteps {
 
     @When("^it does a GET to /search with the parameter \"(.+)\"")
     public void do_a_get_to_search_with(String parameter) {
-        rest().get("https://www.etsy.com/uk/search?q={param}", parameter);
+        rest().get(URL + "/search?q={param}", parameter);
+    }
+
+    @When("it does a GET to /search with the parameters \"(.+)\" and \"(.+)\"")
+    public void do_a_get_with_search_with_2_params(String param1, String param2) {
+        rest().get(URL + "/search?q={param1}&{param2}", param1, param2);
     }
 
     @Then("^the result should be displayed$")
@@ -102,5 +109,11 @@ public class SearchSteps {
     @Then("^the results contain the word \"(.+)\"$")
     public void the_results_contain(String parameter) {
         then().body(containsString(parameter));
+    }
+
+    @Then("^the results contain the words \"(.+)\" and \"(.+)\"$")
+    public void the_results_contain(String param1, String param2) {
+        the_results_contain(param1);
+        the_results_contain(param2);
     }
 }

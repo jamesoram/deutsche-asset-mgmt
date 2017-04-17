@@ -31,7 +31,13 @@ Feature: Sample
     Then the chosen category should be displayed
 
   @api
-  Scenario: doing a GET to /search should return correct results
+  Scenario: doing a GET to /search with one parameter should return correct results
     Given an API client
     When it does a GET to /search with the parameter "craft"
     Then the results contain the word "craft"
+
+  @api
+  Scenario: doing a GET to /search with more than one parameter should return correct results
+    Given an API client
+    When it does a GET to /search with the parameters "hand" and "craft"
+    Then the results contain the words "hand" and "craft"
