@@ -22,14 +22,14 @@ public class MainSearchPage extends PageObject {
     @FindBy(id = "catnav-dropdown")
     WebElementFacade categoryDropdown;
 
-    @FindBy(css = "h1")
-    WebElementFacade titleHeader;
-
     private final static String MENUBAR_BY_CONTENT =
             "id('catnav-menubar')/li[contains(., '%s') and not(contains(@class, 'display-none'))]";
 
     private final static String MENUBAR_SUBCATEGORY =
             "id('catnav-dropdown')//a[contains(., '%s')]";
+
+    private final static String ICON_BY_CONTENT = "" +
+            "//span[@class='vesta-hp-category-default']//span[contains(., '%s')]";
 
     public MainSearchPage(WebDriver driver) {
         super(driver);
@@ -51,15 +51,16 @@ public class MainSearchPage extends PageObject {
                 By.xpath(String.format(MENUBAR_SUBCATEGORY, subcategoryText))).click();
     }
 
+    public CategoryPage clickIconByContent(String content) {
+        getDriver().findElement(By.xpath(String.format(ICON_BY_CONTENT, content))).click();
+        return new CategoryPage(getDriver());
+    }
+
     public String getTopCategoriesHeader() {
         return find(By.cssSelector("h4.pb-xs-1-5")).getText();
     }
 
     public String getAllCategoriesHeader() {
         return find(By.cssSelector("h1.conform-heading.display-inline")).getText();
-    }
-
-    public String getTitleHeader() {
-        return titleHeader.getText();
     }
 }

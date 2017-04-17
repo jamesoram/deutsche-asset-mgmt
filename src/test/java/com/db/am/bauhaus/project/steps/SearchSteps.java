@@ -56,6 +56,11 @@ public class SearchSteps {
         user.search_from_dropdown_menu();
     }
 
+    @When("^he searches for a product from an icon$")
+    public void search_from_icon() {
+        user.search_from_icon();
+    }
+
     @When("^he searches for a product from the input box \\(screenplay\\)$")
     public void search_from_input_box_screenplay() {
         theActorInTheSpotlight().attemptsTo(SearchFor.randomText());

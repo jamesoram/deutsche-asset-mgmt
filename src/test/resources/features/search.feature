@@ -24,7 +24,9 @@ Feature: Sample
     When he searches for a product from the drop-down menu
     Then the chosen category should be displayed
 
-  @ui @wip
+  @ui @pageobject
   Scenario: Should be able to search for a product from the icons
-
+    Given John is viewing the Etsy landing page
+    When he searches for a product from an icon
+    Then the chosen category should be displayed
 
