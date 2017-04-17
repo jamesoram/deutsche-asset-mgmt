@@ -30,3 +30,8 @@ Feature: Sample
     When he searches for a product from an icon
     Then the chosen category should be displayed
 
+  @api
+  Scenario: doing a GET to /search should return correct results
+    Given an API client
+    When it does a GET to /search with the parameter "craft"
+    Then the results contain the word "craft"

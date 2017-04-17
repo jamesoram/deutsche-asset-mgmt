@@ -15,11 +15,14 @@ import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
 import net.thucydides.core.annotations.Steps;
 
+import static net.serenitybdd.rest.SerenityRest.rest;
+import static net.serenitybdd.rest.SerenityRest.then;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.containsText;
 import static net.serenitybdd.screenplay.questions.WebElementQuestion.the;
+import static org.hamcrest.Matchers.containsString;
 
 /**
  * Created by ongshir on 05/10/2016.
@@ -46,6 +49,11 @@ public class SearchSteps {
         theActorCalled(theUser).attemptsTo(Open.browserOn().the(mainSearchPage));
     }
 
+    @Given("^an API client$")
+    public void an_api_client() {
+//        new RestDefaultsChained().setDefaultBasePath("http://etsy.com/uk/").setDefaultPort(80);
+    }
+
     @When("^he searches for a product from the input box$")
     public void search_from_input_box() {
         user.search_from_input_box();
@@ -66,6 +74,11 @@ public class SearchSteps {
         theActorInTheSpotlight().attemptsTo(SearchFor.randomText());
     }
 
+    @When("^it does a GET to /search with the parameter \"(.+)\"")
+    public void do_a_get_to_search_with(String parameter) {
+        rest().get("https://www.etsy.com/uk/search?q={param}", parameter);
+    }
+
     @Then("^the result should be displayed$")
     public void verify_search_result() {
         user.verify_result_for_top_categories();
@@ -84,5 +97,10 @@ public class SearchSteps {
                 seeThat("the top categories header ", the(SearchTarget.TOP_CATEGORIES_HEADER), containsText(searchText)),
                 seeThat("the all categories header ", the(SearchTarget.ALL_CATEGORIES_HEADER), containsText(searchText))
         );
+    }
+
+    @Then("^the results contain the word \"(.+)\"$")
+    public void the_results_contain(String parameter) {
+        then().body(containsString(parameter));
     }
 }

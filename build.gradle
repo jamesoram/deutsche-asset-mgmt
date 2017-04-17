@@ -33,6 +33,7 @@ dependencies {
     compile 'net.serenity-bdd:serenity-screenplay-webdriver:' + SERENITY_VERSION
     compile 'net.serenity-bdd:browse-the-web:1.1.34'
     testCompile 'net.serenity-bdd:serenity-junit:' + SERENITY_VERSION
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.10'
 }
 
 test {
